@@ -1,53 +1,46 @@
 import './App.css';
 import React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import theme from './theme';
+import { ThemeProvider, styled } from '@mui/material/styles';
 import { TextField, Button, Typography } from '@mui/material';
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#2196f3',
-      dark: '#0d8aed',
-    },
-  },
-});
-
-const Wrapper = styled('div')({
+const Wrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   height: '100vh',
-});
+  backgroundColor: theme.palette.background.default,
+}));
 
-const Title = styled(Typography)({
+const Title = styled(Typography)(({ theme }) => ({
   fontSize: '2rem',
   fontWeight: 'bold',
   marginBottom: '1rem',
-});
+  color: theme.palette.text.secondary,
+}));
 
-const Form = styled('form')({
+const Form = styled('form')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-});
+}));
 
-const Label = styled(Typography)({
+const Label = styled(Typography)(({ theme }) => ({
   fontSize: '1.2rem',
   fontWeight: 'bold',
   marginBottom: '0.5rem',
-});
+  color: '#ffffff',
+}));
 
-const Input = styled(TextField)({
+const Input = styled(TextField)(({ theme }) => ({
   marginBottom: '1rem',
-  border: '1px solid #111',
-});
+}));
 
 const SubmitButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
-  color: 'white',
+  color: '#ffffff',
   fontSize: '1.2rem',
   fontWeight: 'bold',
   marginTop: '1rem',
@@ -56,7 +49,6 @@ const SubmitButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -64,7 +56,7 @@ function App() {
         <Title variant="h1">Movie Recommender</Title>
         <Form>
           <Label htmlFor="director-name">Name of Movie's director that you like:</Label>
-          <Input id="director-name" name="director-name" required />
+          <Input id="director-name" name="director-name" variant="outlined" required />
           <SubmitButton type="submit">Submit</SubmitButton>
         </Form>
       </Wrapper>
