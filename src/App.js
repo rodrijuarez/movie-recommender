@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
 import theme from './theme';
 import { ThemeProvider, styled } from '@mui/material/styles';
 import { TextField, Button, Typography } from '@mui/material';
@@ -10,12 +10,21 @@ const Wrapper = styled('div')(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  height: '100vh',
+  height: '80vh',
   backgroundColor: theme.palette.background.default,
 }));
 
+const WrapperImage = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  height: '20vh',
+  // marginBottom: '1rem',
+}));
+
 const Title = styled(Typography)(({ theme }) => ({
-  fontSize: '2rem',
+  // fontSize: '2rem',
   fontWeight: 'bold',
   marginBottom: '1rem',
   color: theme.palette.text.secondary,
@@ -26,11 +35,11 @@ const Form = styled('form')(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
+  marginBottom: '1rem',
 }));
 
 const Label = styled('label')(({ theme }) => ({
   fontSize: '1.2rem',
-  fontWeight: 'bold',
   marginBottom: '0.5rem',
   color: '#ffffff',
 }));
@@ -44,69 +53,83 @@ const SubmitButton = styled(Button)(({ theme }) => ({
   color: '#ffffff',
   fontSize: '1.2rem',
   fontWeight: 'bold',
-  marginTop: '1rem',
+  marginBottom: '1rem',
   '&:hover': {
     backgroundColor: theme.palette.primary.dark,
   },
 }));
 
-export class App extends React.Component {
+const Body = styled('div')(({ theme }) => ({
+  fontSize: '1.2rem',
+  color: '#ffffff',
+  marginLeft: '4rem',
+  marginRight: '4rem',
+}));
 
-  constructor(props) {
-    super(props);
-    this.state = { value: '' };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+function App() {
+  const [value, setValue] = useState('');
+  const [click, setClick] = useState(false);
+  const [recommendations, setRecommendations] = useState(null);
+
+  const handleChange = event => {
+    setValue(event.target.value);
   }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
-
-  handleSubmit(event) {
+  const handleSubmit = event => {
+    setClick(true);
     event.preventDefault();
-    console.log('myRequest: ' + this.state.value);
+    console.log("Movie's Director: " + value);
   
     axios.get('http://localhost:3001/recommendations', {
       params: {
-        director: this.state.value
-  //       curl --location --request GET "localhost:3000/recommendations?query=Linklater" \
-  // --header "Content-Type: application/json"
+        director: value
       }
     })
     .then(response => {
       console.log(response.data);
-      console.log(response.text);
-      // Do something with the response data, such as update the state of the component
+      setRecommendations(response.data);
     })
     .catch(error => {
       console.error(error);
-      // Handle any errors that occurred during the API call
     });
   }
 
-  render() { 
-
-    return (
-      <ThemeProvider theme={theme}>
-        <Wrapper>
-          <Title variant="h1">Movie Recommender</Title>
-          <Form onSubmit={this.handleSubmit}>
-            <Label htmlFor="director-name">Name of Movie's director that you like:</Label>
-            <Input
-              id="director-name"
-              name="director-name"
-              variant="outlined"
-              required
-              value={this.state.value}
-              onChange={this.handleChange}
-            />
-            <SubmitButton type="submit">Submit</SubmitButton>
-          </Form>
-        </Wrapper>
-      </ThemeProvider>
-    );
-  }
+  return (
+    <ThemeProvider theme={theme}>
+      <WrapperImage>
+        <img src={require('./img/watching-movie.png')} alt="logo" 
+        width="100" height="100" className="logo"/>
+      </WrapperImage>
+      <Wrapper>
+        <Title variant="h1">Movie Recommender</Title>
+        <Form onSubmit={handleSubmit}>
+          <Label htmlFor="director-name">Input the name of a Movie's director that you like, and I will recommend you movies:</Label>
+          <Input
+            id="director-name"
+            name="director-name"
+            variant="outlined"
+            required
+            value={value}
+            onChange={handleChange}
+          />
+          <SubmitButton type="submit">Submit</SubmitButton>
+        </Form>
+        { click && !recommendations && (
+          <div marginbottom="1rem">
+            <img src={require('./img/waiting.gif')} alt="loading..." 
+            width="80" height="80" className="waiting-gif"/>
+          </div>
+        )}
+        {recommendations && (
+          <div>
+            <Title variant="h2" align='center'>Recommendations</Title>
+            <Body>{recommendations}</Body>
+          </div>
+        )}
+      </Wrapper>
+    </ThemeProvider>
+  );
 }
 
 export default App;
+
