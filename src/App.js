@@ -10,8 +10,9 @@ const Wrapper = styled('div')(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  height: '80vh',
+  // height: 'align',
   backgroundColor: theme.palette.background.default,
+  marginTop: '20px',
 }));
 
 const WrapperImage = styled('div')(({ theme }) => ({
@@ -19,8 +20,8 @@ const WrapperImage = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  height: '20vh',
-  // marginBottom: '1rem',
+  height: 'align',
+  marginTop: '20px',
 }));
 
 const Title = styled(Typography)(({ theme }) => ({
@@ -35,17 +36,16 @@ const Form = styled('form')(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  marginBottom: '1rem',
 }));
 
 const Label = styled('label')(({ theme }) => ({
   fontSize: '1.2rem',
-  marginBottom: '0.5rem',
+  marginTop: '20px',
   color: '#ffffff',
 }));
 
 const Input = styled(TextField)(({ theme }) => ({
-  marginBottom: '1rem',
+  marginTop: '20px',
 }));
 
 const SubmitButton = styled(Button)(({ theme }) => ({
@@ -53,7 +53,7 @@ const SubmitButton = styled(Button)(({ theme }) => ({
   color: '#ffffff',
   fontSize: '1.2rem',
   fontWeight: 'bold',
-  marginBottom: '1rem',
+  marginTop: '20px',
   '&:hover': {
     backgroundColor: theme.palette.primary.dark,
   },
@@ -64,6 +64,7 @@ const Body = styled('div')(({ theme }) => ({
   color: '#ffffff',
   marginLeft: '4rem',
   marginRight: '4rem',
+  marginTop: '20px',
 }));
 
 function App() {
@@ -77,6 +78,7 @@ function App() {
 
   const handleSubmit = event => {
     setClick(true);
+    setRecommendations(null);
     event.preventDefault();
     console.log("Movie's Director: " + value);
   
@@ -114,8 +116,10 @@ function App() {
           />
           <SubmitButton type="submit">Submit</SubmitButton>
         </Form>
-        { click && !recommendations && (
-          <div marginbottom="1rem">
+      </Wrapper>
+      <Wrapper>
+        {click && !recommendations && (
+          <div marginTop="20px">
             <img src={require('./img/waiting.gif')} alt="loading..." 
             width="80" height="80" className="waiting-gif"/>
           </div>
@@ -123,7 +127,16 @@ function App() {
         {recommendations && (
           <div>
             <Title variant="h2" align='center'>Recommendations</Title>
-            <Body>{recommendations}</Body>
+            <Body>
+              {recommendations.map((rec, index) => (
+                <div key={index}>
+                  {rec.movie && (
+                    <div>{rec.movie}</div>
+                  )}
+                  <div>{rec.director}</div>
+                </div>
+              ))}
+            </Body>
           </div>
         )}
       </Wrapper>
