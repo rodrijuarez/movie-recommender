@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import theme from './theme';
 import { ThemeProvider, styled } from '@mui/material/styles';
 import { TextField, Button, Typography } from '@mui/material';
+import Select from 'react-select';
 import axios from 'axios';
 
 const Wrapper = styled('div')(({ theme }) => ({
@@ -96,6 +97,12 @@ function App() {
     });
   }
 
+  const optionsSelect = [
+    { value: 'director', label: 'Director' },
+    { value: 'movie', label: 'Movie' },
+    { value: 'actor', label: 'Actor' }
+  ];
+
   return (
     <ThemeProvider theme={theme}>
       <WrapperImage>
@@ -105,7 +112,15 @@ function App() {
       <Wrapper>
         <Title variant="h1">Movie Recommender</Title>
         <Form onSubmit={handleSubmit}>
-          <Label htmlFor="director-name">Input the name of a Movie's director that you like, and I will recommend you movies:</Label>
+        <Label htmlFor="option-select">
+            Choose Movie, Actor or Director
+          </Label>
+          <Label htmlFor="director-name">
+            Input one that you like, and I will recommend you movies:
+          </Label>
+          <Select id="option-select" name="option-select" options={optionsSelect} 
+          // defaultValue={optionsSelect[0].value} 
+          ></Select>
           <Input
             id="director-name"
             name="director-name"
