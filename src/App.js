@@ -3,14 +3,16 @@ import React, { useState } from 'react';
 import theme from './theme';
 import { ThemeProvider, styled } from '@mui/material/styles';
 import { TextField, Button, Typography } from '@mui/material';
+// import { TextField, Button, Typography, Select } from '@mui/material'; //porque estoy queriendo hacerlo funcionar y pensaba que el issue era con el select de MUI, pero no je
 import axios from 'axios';
+import Select, { StylesConfig } from 'react-select';
+// import makeAnimated from 'react-select/animated'; //porque quiero probarlo luego je
 
 const Wrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  // height: 'align',
   backgroundColor: theme.palette.background.default,
   marginTop: '20px',
 }));
@@ -25,8 +27,10 @@ const WrapperImage = styled('div')(({ theme }) => ({
 }));
 
 const Title = styled(Typography)(({ theme }) => ({
-  // fontSize: '2rem',
   fontWeight: 'bold',
+  textAlign: 'center',
+  marginLeft: '1rem',
+  marginRight: '1rem',
   marginBottom: '1rem',
   color: theme.palette.text.secondary,
 }));
@@ -39,10 +43,11 @@ const Form = styled('form')(({ theme }) => ({
 }));
 
 const Label = styled('label')(({ theme }) => ({
-  fontSize: '1.2rem',
-  marginTop: '20px',
+  fontSize: '1rem',
+  marginLeft: '4rem',
+  marginRight: '4rem',
   color: '#ffffff',
-}));
+})); 
 
 const Input = styled(TextField)(({ theme }) => ({
   marginTop: '20px',
@@ -71,6 +76,7 @@ function App() {
   const [value, setValue] = useState('');
   const [click, setClick] = useState(false);
   const [recommendations, setRecommendations] = useState(null);
+  const [option, setOption] = useState('');
 
   const handleChange = event => {
     setValue(event.target.value);
@@ -78,13 +84,21 @@ function App() {
 
   const handleSubmit = event => {
     setClick(true);
+    /* I couldnt fix this issue, after selecting an option, got this:
+          TypeError: Cannot read properties of undefined (reading 'value')*/
+    setOption(event.target.value); //The error occurs with this
     setRecommendations(null);
     event.preventDefault();
-    console.log("Movie's Director: " + value);
+    console.log(option + " selected: " + value);
+
+    const optionEndpoint = 
+      value === 'movie' ? 'movie-recommendations' :
+      value === 'actor' ? 'actor-recommendations' :
+      'recommendations'; // default value === 'director' ? 'recommendations';
   
-    axios.get('http://localhost:3001/recommendations', {
+    axios.get(`http://localhost:3001/${optionEndpoint}`, {
       params: {
-        director: value
+        optionSelected: value
       }
     })
     .then(response => {
@@ -96,6 +110,12 @@ function App() {
     });
   }
 
+  const optionsSelect = [
+    { value: 'director', label: 'Director' },
+    { value: 'movie', label: 'Movie' },
+    { value: 'actor', label: 'Actor' }
+  ];
+
   return (
     <ThemeProvider theme={theme}>
       <WrapperImage>
@@ -105,7 +125,15 @@ function App() {
       <Wrapper>
         <Title variant="h1">Movie Recommender</Title>
         <Form onSubmit={handleSubmit}>
-          <Label htmlFor="director-name">Input the name of a Movie's director that you like, and I will recommend you movies:</Label>
+          <Label htmlFor="option-select">
+            Choose Movie, Actor or Director
+          </Label>
+          <Label htmlFor="director-name">
+            Input one that you like, and I will recommend you movies:
+          </Label>
+          <Select id="option-select" name="option-select" options={optionsSelect} 
+          // defaultValue={optionsSelect[0].value} 
+          ></Select>
           <Input
             id="director-name"
             name="director-name"
@@ -130,10 +158,8 @@ function App() {
             <Body>
               {recommendations.map((rec, index) => (
                 <div key={index}>
-                  {rec.movie && (
-                    <div>{rec.movie}</div>
-                  )}
-                  <div>{rec.director}</div>
+                  <div>`"{rec.movie}" by {rec.director}`</div>
+                  <a href={rec.director}>Ver Trailer</a>
                 </div>
               ))}
             </Body>
