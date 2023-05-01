@@ -2,13 +2,19 @@ import "./App.css";
 import React, { useState, useCallback } from "react";
 import theme from "./theme";
 import { ThemeProvider, styled } from "@mui/material/styles";
-import { TextField, Button, Typography } from "@mui/material";
+import { InputAdornment, TextField, Button, Typography } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
-import Select from "react-select";
+import { DarkSelect } from "./components/DarkSelect";
 import { MovieTable } from "./components/MovieTable";
 
-const StyledSelect = styled(Select)(({ theme }) => ({
+const StyledDarkSelect = styled(DarkSelect)(({ theme }) => ({
 	marginTop: "20px",
+}));
+
+const InputsWrapper = styled("div")(({ theme }) => ({
+	display: "flex",
+	alignItems: "center",
 }));
 
 const Wrapper = styled("div")(({ theme }) => ({
@@ -52,9 +58,75 @@ const Label = styled("label")(({ theme }) => ({
 	color: "#ffffff",
 }));
 
+const textFieldStyles = {
+	gridColumn: "3 / 4",
+	gridRow: "2 / 3",
+	position: "relative",
+	display: "flex",
+	alignItems: "center",
+	marginLeft: "20px",
+};
+
+const inputStyles = {
+	width: "20.4rem",
+	height: "4rem",
+	border: "none",
+	borderRadius: "1rem",
+	fontSize: "1.4rem",
+	paddingLeft: "3rem",
+	boxShadow: (theme) => theme.shadows[2],
+	background: "none",
+	fontFamily: "inherit",
+	color: "var(--greyDark)",
+	"&::placeholder": { color: "var(--greyLight-3)" },
+	"&:focus": {
+		outline: "none",
+		boxShadow: (theme) => theme.shadows[4],
+	},
+};
+
 const Input = styled(TextField)(({ theme }) => ({
 	marginTop: "20px",
+	gridColumn: "3 / 4",
+	gridRow: "2 / 3",
+	position: "relative",
+	display: "flex",
+	alignItems: "center",
+
+	"& .MuiInputBase-root": {
+		width: "20.4rem",
+		height: "4rem",
+		border: "none",
+		borderRadius: "1rem",
+		fontSize: "1.4rem",
+		paddingLeft: "3.8rem",
+		boxShadow: theme.shadows[1],
+		background: "none",
+		fontFamily: "inherit",
+		color: theme.palette.text.primary,
+
+		"&::placeholder": { color: theme.palette.grey[500] },
+
+		"&:focus": {
+			outline: "none",
+			boxShadow: theme.shadows[2],
+
+			"+ .search__icon": {
+				color: theme.palette.primary.main,
+			},
+		},
+	},
 }));
+
+const searchIconStyles = {
+	height: "2rem",
+	position: "absolute",
+	left: "1rem",
+	display: "flex",
+	alignItems: "center",
+	color: (theme) => theme.palette.grey[500],
+	transition: "0.3s ease",
+};
 
 const SubmitButton = styled(Button)(({ theme }) => ({
 	backgroundColor: theme.palette.primary.main,
@@ -125,17 +197,19 @@ function App() {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<WrapperImage>
-				<img
-					src={require("./img/watching-movie.png")}
-					alt="logo"
-					width="100"
-					height="100"
-					className="logo"
-				/>
-			</WrapperImage>
-			<Wrapper>
+			<div>
+				<WrapperImage>
+					<img
+						src={require("./img/watching-movie.png")}
+						alt="logo"
+						width="40"
+						height="40"
+						className="logo"
+					/>
+				</WrapperImage>
 				<Title variant="h1">Movie Recommender</Title>
+			</div>
+			<Wrapper>
 				<Form onSubmit={handleSubmit}>
 					<Label htmlFor="option-select">
 						Choose Movie, Actor or Director
@@ -144,22 +218,44 @@ function App() {
 						Input one that you like, and I
 						will recommend you movies:
 					</Label>
-					<StyledSelect
-						id="option-select"
-						name="option-select"
-						options={seedTypes}
-						value={seedType}
-						onChange={onSeedTypeChange}
-						required
-					></StyledSelect>
-					<Input
-						id="director-name"
-						name="director-name"
-						variant="outlined"
-						required
-						value={seedValue}
-						onChange={onSeedValueChange}
-					/>
+					<InputsWrapper>
+						<StyledDarkSelect
+							id="option-select"
+							name="option-select"
+							options={seedTypes}
+							value={seedType}
+							onChange={
+								onSeedTypeChange
+							}
+							required
+						></StyledDarkSelect>
+
+						<Input
+							placeholder="Search"
+							sx={textFieldStyles}
+							variant="outlined"
+							InputProps={{
+								sx: inputStyles,
+								startAdornment:
+									(
+										<InputAdornment position="start">
+											<SearchIcon
+												sx={
+													searchIconStyles
+												}
+											/>
+										</InputAdornment>
+									),
+							}}
+							id="director-name"
+							name="director-name"
+							required
+							value={seedValue}
+							onChange={
+								onSeedValueChange
+							}
+						/>
+					</InputsWrapper>
 					<SubmitButton type="submit">
 						Submit
 					</SubmitButton>
