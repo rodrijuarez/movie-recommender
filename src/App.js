@@ -10,6 +10,8 @@ import { MovieTable } from "./components/MovieTable";
 
 const StyledDarkSelect = styled(DarkSelect)(({ theme }) => ({
 	marginTop: "20px",
+	height: "60px",
+	width: "150px",
 }));
 
 const InputsWrapper = styled("div")(({ theme }) => ({
@@ -32,15 +34,14 @@ const WrapperImage = styled("div")(({ theme }) => ({
 	flexDirection: "column",
 	alignItems: "center",
 	height: "align",
-	marginTop: "20px",
 }));
 
 const Title = styled(Typography)(({ theme }) => ({
 	fontWeight: "bold",
 	textAlign: "center",
-	marginLeft: "1rem",
-	marginRight: "1rem",
-	marginBottom: "1rem",
+	marginLeft: "20px",
+	marginRight: "20px",
+	marginBottom: "20px",
 	color: theme.palette.text.secondary,
 }));
 
@@ -52,9 +53,9 @@ const Form = styled("form")(({ theme }) => ({
 }));
 
 const Label = styled("label")(({ theme }) => ({
-	fontSize: "1rem",
-	marginLeft: "4rem",
-	marginRight: "4rem",
+	fontSize: "20px",
+	marginLeft: "80px",
+	marginRight: "80px",
 	color: "#ffffff",
 }));
 
@@ -68,12 +69,12 @@ const textFieldStyles = {
 };
 
 const inputStyles = {
-	width: "20.4rem",
-	height: "4rem",
+	width: "326.4px",
+	height: "60px",
 	border: "none",
-	borderRadius: "1rem",
-	fontSize: "1.4rem",
-	paddingLeft: "3rem",
+	borderRadius: "20px",
+	fontSize: "22.4rem",
+	paddingLeft: "60px",
 	boxShadow: (theme) => theme.shadows[2],
 	background: "none",
 	fontFamily: "inherit",
@@ -95,9 +96,9 @@ const Input = styled(TextField)(({ theme }) => ({
 
 	"& .MuiInputBase-root": {
 		width: "20.4rem",
-		height: "4rem",
+		height: "80px",
 		border: "none",
-		borderRadius: "1rem",
+		borderRadius: "20px",
 		fontSize: "1.4rem",
 		paddingLeft: "3.8rem",
 		boxShadow: theme.shadows[1],
@@ -119,9 +120,9 @@ const Input = styled(TextField)(({ theme }) => ({
 }));
 
 const searchIconStyles = {
-	height: "2rem",
+	height: "40px",
 	position: "absolute",
-	left: "1rem",
+	left: "20px",
 	display: "flex",
 	alignItems: "center",
 	color: (theme) => theme.palette.grey[500],
@@ -131,7 +132,7 @@ const searchIconStyles = {
 const SubmitButton = styled(Button)(({ theme }) => ({
 	backgroundColor: theme.palette.primary.main,
 	color: "#ffffff",
-	fontSize: "1.2rem",
+	fontSize: "20px",
 	fontWeight: "bold",
 	marginTop: "20px",
 	"&:hover": {
@@ -142,8 +143,8 @@ const SubmitButton = styled(Button)(({ theme }) => ({
 const Body = styled("div")(({ theme }) => ({
 	fontSize: "1.2rem",
 	color: "#ffffff",
-	marginLeft: "4rem",
-	marginRight: "4rem",
+	marginLeft: "60px",
+	marginRight: "60px",
 	marginTop: "20px",
 }));
 
@@ -197,7 +198,13 @@ function App() {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<div>
+			<div
+				style={{
+					alignItems: "center",
+					display: "flex",
+					margin: "10px",
+				}}
+			>
 				<WrapperImage>
 					<img
 						src={require("./img/watching-movie.png")}
@@ -207,7 +214,15 @@ function App() {
 						className="logo"
 					/>
 				</WrapperImage>
-				<Title variant="h1">Movie Recommender</Title>
+				<Title
+					variant="h3"
+					style={{
+						margin: "0",
+						marginLeft: "20px",
+					}}
+				>
+					Movie Recommender
+				</Title>
 			</div>
 			<Wrapper>
 				<Form onSubmit={handleSubmit}>
@@ -220,6 +235,7 @@ function App() {
 					</Label>
 					<InputsWrapper>
 						<StyledDarkSelect
+							height="60px"
 							id="option-select"
 							name="option-select"
 							options={seedTypes}

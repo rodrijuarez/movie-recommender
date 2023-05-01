@@ -6,6 +6,7 @@ const customStyles = {
 		backgroundColor: "#212121",
 		borderRadius: "0.5rem",
 		borderColor: state.isFocused ? "#6bffff" : "transparent",
+		height: state.selectProps.height || "38px",
 		boxShadow: "none",
 		"&:hover": {
 			borderColor: state.isFocused
