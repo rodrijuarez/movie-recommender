@@ -3,7 +3,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import theme from './theme';
 import { ThemeProvider, styled } from '@mui/material/styles';
 import { TextField, Button, Typography } from '@mui/material';
-// import { TextField, Button, Typography, Select } from '@mui/material'; //porque estoy queriendo hacerlo funcionar y pensaba que el issue era con el select de MUI, pero no je
 import axios from 'axios';
 import Select, { StylesConfig } from 'react-select';
 // import makeAnimated from 'react-select/animated'; //porque quiero probarlo luego je
@@ -140,7 +139,7 @@ function App() {
           </Label>
           <Select id="option-select" name="option-select" options={seedTypes} 
             value={seedType} onChange={onSeedTypeChange} required
-          ></Select>  
+          ></Select>
           <Input
             id="director-name"
             name="director-name"
