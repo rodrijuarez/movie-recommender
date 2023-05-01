@@ -96,7 +96,7 @@ const Input = styled(TextField)(({ theme }) => ({
 
 	"& .MuiInputBase-root": {
 		width: "20.4rem",
-		height: "80px",
+		height: "60px",
 		border: "none",
 		borderRadius: "20px",
 		fontSize: "1.4rem",
