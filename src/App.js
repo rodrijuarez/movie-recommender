@@ -3,9 +3,9 @@ import React, { useState, useCallback } from "react";
 import theme from "./theme";
 import { ThemeProvider, styled } from "@mui/material/styles";
 import { TextField, Button, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import Select from "react-select";
+import { MovieTable } from "./components/MovieTable";
 
 const Wrapper = styled("div")(({ theme }) => ({
 	display: "flex",
@@ -84,13 +84,6 @@ function App() {
 	const onSeedTypeChange = useCallback((option) => {
 		setSeedType(option);
 	}, []);
-
-	const columns = [
-		{ field: "director", headerName: "Director", flex: 1 },
-		{ field: "movie", headerName: "Movie", flex: 1 },
-		{ field: "imdb", headerName: "IMDB", flex: 1 },
-		{ field: "trailer", headerName: "Trailer", flex: 1 },
-	];
 
 	const handleSubmit = (event) => {
 		setClick(true);
@@ -180,7 +173,7 @@ function App() {
 					</div>
 				)}
 				{recommendations && (
-					<div>
+					<div style={{ width: "100%" }}>
 						<Title
 							variant="h2"
 							align="center"
@@ -194,20 +187,9 @@ function App() {
 									width: "100%",
 								}}
 							>
-								<DataGrid
-									getRowId={(
-										row
-									) =>
-										row.imdb
-									}
-									rows={
+								<MovieTable
+									recommendations={
 										recommendations
-									}
-									columns={
-										columns
-									}
-									pageSize={
-										5
 									}
 								/>
 							</div>
@@ -218,41 +200,5 @@ function App() {
 		</ThemeProvider>
 	);
 }
-
-//{recommendations.map(
-//(
-//rec,
-//index
-//) => (
-//<div
-//key={
-//index
-//}
-//>
-//<div>
-//"
-//{
-//rec.movie
-//}
-
-//"
-//by{" "}
-//{
-//rec.director
-//}
-//</div>
-//{rec.trailer && (
-//<a
-//target="_blank"
-//rel="noreferrer"
-//href={`https://youtube.com/watch?v=${rec.trailer}`}
-//>
-//Ver
-//Trailer
-//</a>
-//)}
-//</div>
-//)
-//)}
 
 export default App;
