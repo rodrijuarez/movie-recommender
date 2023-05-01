@@ -7,6 +7,10 @@ import axios from "axios";
 import Select from "react-select";
 import { MovieTable } from "./components/MovieTable";
 
+const StyledSelect = styled(Select)(({ theme }) => ({
+	marginTop: "20px",
+}));
+
 const Wrapper = styled("div")(({ theme }) => ({
 	display: "flex",
 	flexDirection: "column",
@@ -82,6 +86,7 @@ function App() {
 	};
 
 	const onSeedTypeChange = useCallback((option) => {
+		setSeedValue("");
 		setSeedType(option);
 	}, []);
 
@@ -139,14 +144,14 @@ function App() {
 						Input one that you like, and I
 						will recommend you movies:
 					</Label>
-					<Select
+					<StyledSelect
 						id="option-select"
 						name="option-select"
 						options={seedTypes}
 						value={seedType}
 						onChange={onSeedTypeChange}
 						required
-					></Select>
+					></StyledSelect>
 					<Input
 						id="director-name"
 						name="director-name"
