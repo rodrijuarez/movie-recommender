@@ -176,7 +176,7 @@ function App() {
 				? "actor-recommendations"
 				: "recommendations"; // default value === 'director' ? 'recommendations';
 
-		axios.get(`http://localhost:3001/${seedEndpoint}`, {
+		axios.get(`http://18.184.6.56/${seedEndpoint}`, {
 			params: {
 				[seedType.value]: seedValue,
 			},
