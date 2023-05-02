@@ -176,7 +176,7 @@ function App() {
 				? "actor-recommendations"
 				: "recommendations"; // default value === 'director' ? 'recommendations';
 
-		axios.get(`https://cool-dolphin-d85150.netlify.app//${seedEndpoint}`, {
+		axios.get(`https://movie-recommender-s9xq.onrender.com/${seedEndpoint}`, {
 			params: {
 				[seedType.value]: seedValue,
 			},
