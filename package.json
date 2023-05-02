@@ -2,6 +2,7 @@
 	"name": "movie-recommender",
 	"version": "0.1.0",
 	"private": true,
+	"homepage": "https://rodrijuarez.github.io/movie-recommender",
 	"dependencies": {
 		"@emotion/react": "^11.10.6",
 		"@emotion/styled": "^11.10.6",
