@@ -176,7 +176,7 @@ function App() {
 				? "actor-recommendations"
 				: "recommendations"; // default value === 'director' ? 'recommendations';
 
-		axios.get(`https://movie-recommender-s9xq.onrender.com/${seedEndpoint}`, {
+		axios.get(`${process.env.REACT_APP_API_URL}/${seedEndpoint}`, {
 			params: {
 				[seedType.value]: seedValue,
 			},
